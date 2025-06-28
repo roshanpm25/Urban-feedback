@@ -20,7 +20,9 @@ const username=localStorage.getItem('username')
       <Link to="/help" style={{ marginRight: '15px' }}>Help</Link> */}
  {isLoggedIn ? (
         <Link to={`/user/${username}/home`} style={{ marginRight: '15px' }}>Home</Link>
-      ) : (
+      ) 
+      :
+       (
         <Link to="/" style={{ marginRight: '15px' }}>Home</Link>
       )}
 
