@@ -1,0 +1,115 @@
+.help-page {
+  background-color: #98A06f;
+  color: #17413f;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Hero */
+.help-hero {
+  background-color: #d7dbc0;
+  text-align: center;
+  padding: 60px 30px;
+}
+
+.help-hero h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.help-hero p {
+  font-size: 18px;
+  color: #2f3d35;
+}
+
+/* Help Topics */
+.help-topics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+  background-color: #f0f4e3;
+}
+
+.help-card {
+  background-color: #4e7258;
+  color: white;
+  padding: 25px;
+  width: 250px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.help-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* FAQ Section */
+.help-faq {
+  background-color: #d7dbc0;
+  padding: 50px 20px;
+}
+
+.help-faq h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.faq-item {
+  max-width: 800px;
+  margin: 15px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-left: 5px solid #17413f;
+  border-radius: 8px;
+}
+
+.faq-item h4 {
+  font-size: 17px;
+  margin-bottom: 8px;
+  color: #17413f;
+}
+
+.faq-item p {
+  font-size: 15px;
+  color: #333;
+}
+
+/* Contact Section */
+.help-contact {
+  background-color: #c5d1ad;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.help-contact h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.help-contact a {
+  color: #17413f;
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  background-color: #17413f;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .help-topics {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .help-card {
+    width: 90%;
+  }
+}
