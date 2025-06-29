@@ -9,27 +9,41 @@ export default function ComplaintForm() {
   const [number, setNumber] = useState('');
   const [details, setDetails] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const complaint = {
-      username,
-      phone: number,
-      service: serviceType,
-      description: details,
-      timestamp: new Date().toLocaleString(),
-    };
+  const complaint = {
+    username,
+    service: serviceType,
+    description: details,
+    phone: number,
+    wardNo: localStorage.getItem('wardNo') || '', // optional
+  };
 
-    const existing = JSON.parse(localStorage.getItem('complaints')) || [];
-    existing.push(complaint);
-    localStorage.setItem('complaints', JSON.stringify(existing));
+  try {
+    const res = await fetch('http://localhost:5000/api/complaints', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(complaint),
+    });
 
-    alert(`Complaint submitted for ${serviceType}\nName: ${username}\nDetails: ${details}`);
+    const data = await res.json();
 
-    setUsername('');
+    if (!res.ok) {
+      alert(data.error || 'Failed to submit complaint');
+      return;
+    }
+
+    alert(`Complaint submitted for ${serviceType}`);
     setNumber('');
     setDetails('');
-  };
+  } catch (err) {
+    console.error(err);
+    alert('Server error');
+  }
+};
+
+ 
 
   return (
     <form onSubmit={handleSubmit} style={{ padding: '20px' }}>

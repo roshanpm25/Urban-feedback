@@ -1,32 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-// Load environment variables
-dotenv.config();
-
 const app = express();
 
 // Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Routes
 const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); // This works only if router is properly exported
+const complaintRoutes = require('./routes/complaints');
+app.use('/api/complaints', complaintRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+
+// DB connection and server
+mongoose.connect('mongodb://localhost:27017/urban-feedback', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-.then(() => {
+}).then(() => {
   console.log('✅ Connected to MongoDB');
-
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
-})
-.catch((err) => {
-  console.error('❌ MongoDB connection error:', err.message);
+  app.listen(5000, () => console.log('🚀 Server running on port 5000'));
+}).catch((err) => {
+  console.error('MongoDB connection failed:', err);
 });
