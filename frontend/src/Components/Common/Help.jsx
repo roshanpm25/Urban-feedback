@@ -1,9 +1,14 @@
 import React from 'react';
 import './Help.css';
+import Navbar from './Navbar';
 
 const Help = () => {
   return (
     <div className="help-page">
+
+    {/* navbar section */}
+      <header><Navbar /></header>
+
       {/* Hero Section */}
       <section className="help-hero">
         <h1>Help Center</h1>

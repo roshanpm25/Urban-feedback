@@ -1,58 +1,58 @@
+// src/App.jsx
+
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import Navbar from './Components/Common/Navbar'; 
-import Home from './Components/Common/Home'; 
-import UserHome from './Components/User/UserHome'; 
-import ComplaintForm from './Components/User/ComplaintForm';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Common Components
+import Login from './Components/Auth/Login';
+import Home from './Components/Common/Home';
 import About from './Components/Common/About';
 import Help from './Components/Common/Help';
-import Login from  './Components/Auth/Login';
-import ViewComplaints from './Components/User/ViewComplaints';
-import RoleProtectedRoute from './Components/Auth/RoleProtectedRoute';
-import WardDashboard from './Components/Officer/WardDashboard';
-import SuperAdminPanel from './Components/SuperAdmin/SuperAdminPanel';
-import Unauthorized from './Components/Common/Unauthorized';
+
+// User Components
+import UserHome from './Components/User/UserHome';
+import ComplaintForm from './Components/User/UpdateStatus';
+import ViewComplaints from './Components/User/ViewComplaintsDetails';
+import ViewComplaintsDetails from './Components/User/ViewComplaintsDetails'; // ✅ for user
+
+// Ward Admin Components
+import WardAdminHome from './Components/WardAdmin/WardAdminHome';
+import ComplaintManager from './Components/WardAdmin/ComplaintManager';
+import AssignMembers from './Components/WardAdmin/AssignMembers';
+import WardViewComplaintDetails from './Components/WardAdmin/WardViewComplaintDetails';
+import WardViewComplaints from './Components/WardAdmin/WardViewComplaints';
+import UpdateStatus from './Components/WardAdmin/UpdateStatus';
+
+
 
 function App() {
   return (
-   <>
- <Router>
-      <Navbar />
-    <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/about" element={<About />} />
-  <Route path="/help" element={<Help />} />
-  <Route path="/complaint/:serviceType" element={<ComplaintForm />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/view-complaints" element={<ViewComplaints />} />
+    <Router>
+      <Routes>
 
-  <Route path="/user/:username/home" element={
-    <RoleProtectedRoute allowedRoles={['user']}>
-      <UserHome />
-    </RoleProtectedRoute>
-  } />
+        {/* ✅ Common Pages */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/help" element={<Help />} />
 
-  <Route path="/wardadmin/dashboard" element={
-    <RoleProtectedRoute allowedRoles={['wardAdmin']}>
-      <WardDashboard />
-    </RoleProtectedRoute>
-  } />
+        {/* ✅ User Pages */}
+        <Route path="/user/:username/home" element={<UserHome />} />
+        <Route path="/user/complaints" element={<ViewComplaints />} />
+        <Route path="/user/complaint/:serviceType" element={<ComplaintForm />} />
+        <Route path="/user/complaints/:complaintId" element={<ViewComplaintsDetails />} /> {/* 🛠 Fixed extra slash */}
 
-  <Route path="/superadmin/panel" element={
-    <RoleProtectedRoute allowedRoles={['superAdmin']}>
-      <SuperAdminPanel />
-    </RoleProtectedRoute>
-  } />
+        {/* ✅ Ward Admin Pages */}
+        <Route path="/wardAdmin/:username/home" element={<WardAdminHome />} />
+        <Route path="/wardAdmin/complaints" element={<ComplaintManager />} />
+        <Route path="/wardAdmin/assign/:complaintId" element={<AssignMembers />} />
+        <Route path="/wardAdmin/view/:complaintId" element={<WardViewComplaintDetails />} />
+        <Route path="/ward/view/:complaintId" element={<WardViewComplaintDetails />} />
+        <Route path="/ward/complaints" element={<WardViewComplaints />} />
+        <Route path="/wardAdmin/complaints/:complaintId/status" element={<UpdateStatus />} />
 
-  {/* ✅ Missing route added */}
-  <Route path="/unauthorized" element={<Unauthorized />} />
-</Routes>
-
+      </Routes>
     </Router>
-
-    </>
-
-
   );
 }
 

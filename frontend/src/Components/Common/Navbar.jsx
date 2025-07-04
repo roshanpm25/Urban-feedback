@@ -1,51 +1,48 @@
+// src/Components/Common/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png';
+import './Navbar.css';
+
+
 
 export default function Navbar() {
   const navigate = useNavigate();
-
-const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-const username=localStorage.getItem('username')
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const username = localStorage.getItem('username');
+  const role = localStorage.getItem('role');
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
+    localStorage.clear();
     navigate('/login');
   };
 
-
   return (
-    <nav style={{ marginBottom: '20px' }}>
-      {/* <Link to="/" style={{ marginRight: '15px' }}>Home</Link>
-      <Link to="/about" style={{ marginRight: '15px' }}>About</Link>
-      <Link to="/help" style={{ marginRight: '15px' }}>Help</Link> */}
- {isLoggedIn ? (
-        <Link to={`/user/${username}/home`} style={{ marginRight: '15px' }}>Home</Link>
-      ) 
-      :
-       (
-        <Link to="/" style={{ marginRight: '15px' }}>Home</Link>
-      )}
+    <header className="navbar">
+      <div className="logo">
+        <img src={logo} alt="Logo" />
+        <span>Fix My City</span>
+      </div>
 
-      <Link to="/about" style={{ marginRight: '15px' }}>About</Link>
-      <Link to="/help" style={{ marginRight: '15px' }}>Help</Link>
+      <nav className="nav-links">
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/help">Help</Link>
+
+        {isLoggedIn && role === 'user' && (
+          <Link to={`/user/${username}/home`}>User Dashboard</Link>
+        )}
+
+        {isLoggedIn && role === 'wardAdmin' && (
+          <Link to={`/wardAdmin/${username}/home`}>Ward Dashboard</Link>
+        )}
+      </nav>
 
       {isLoggedIn ? (
-        <>
-          <Link to="/view-complaints" style={{ marginLeft: '15px', marginRight: '15px' }}>
-            View All Complaints
-          </Link>
-          <button onClick={handleLogout}>Logout</button>
-        </>
+        <button className="login-btn" onClick={handleLogout}>Logout</button>
       ) : (
-        <Link to="/login" style={{ marginLeft: '15px' }}>
-          Login
-        </Link>
+        <Link to="/login" className="login-btn">Login</Link>
       )}
-
-</nav>
-      
-
-      ) }
-
-
-
+    </header>
+  );
+}

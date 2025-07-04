@@ -1,0 +1,33 @@
+/* UserHome.css */
+
+.user-home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fef6ff, #e8f9fd, #f9fff3);
+  font-family: 'Segoe UI', sans-serif;
+  padding-bottom: 30px;
+}
+
+.user-home-content {
+  padding: 40px;
+  text-align: center;
+}
+
+.user-home-content h1 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.user-home-content p {
+  font-size: 18px;
+  color: #5d6d7e;
+  margin-bottom: 30px;
+}
+
+.service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}

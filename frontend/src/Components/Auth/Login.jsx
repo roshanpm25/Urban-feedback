@@ -1,7 +1,11 @@
+// src/Components/Auth/Login.jsx
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
+import Navbar from '../Common/Navbar';
 
-const Login = () => {
+export default function Login() {
   const navigate = useNavigate();
 
   const [isRegister, setIsRegister] = useState(false);
@@ -18,15 +22,21 @@ const Login = () => {
       ? 'http://localhost:5000/api/auth/register'
       : 'http://localhost:5000/api/auth/login';
 
-    const bodyData = isRegister
-      ? { username, email, password, role, wardNo: role === 'wardAdmin' ? wardNo : undefined }
-      : { email, password };
+    const payload = isRegister
+      ? {
+          username,
+          email,
+          password,
+          role,
+          wardNo: role === 'wardAdmin' ? wardNo : ''
+        }
+      : { username, password };
 
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bodyData),
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
@@ -36,100 +46,91 @@ const Login = () => {
         return;
       }
 
-      if (!data.user || !data.user.role || !data.user.username) {
-        alert('Login response missing user data');
-        return;
-      }
+      const user = data.user || data;
+      const { username, role, wardNo } = user;
 
-      const { username, role, wardNo } = data.user;
-
+      // ✅ Save to localStorage
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('username', username);
       localStorage.setItem('role', role);
       localStorage.setItem('wardNo', wardNo || '');
 
-      // ✅ Role-based redirection
-      if (role === 'superAdmin') {
-        navigate('/superadmin/panel');
-      } else if (role === 'wardAdmin') {
-        navigate('/wardadmin/dashboard');
+      // ✅ Navigate based on role
+      if (role === 'wardAdmin') {
+        navigate(`/wardAdmin/${username}/home`);
       } else if (role === 'user') {
         navigate(`/user/${username}/home`);
       } else {
         navigate('/unauthorized');
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Something went wrong');
+      console.error('Login/Register Error:', error);
+      alert('Something went wrong. Please try again.');
     }
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-      <h2>{isRegister ? 'Register' : 'Login'}</h2>
+    <>
+      <header><Navbar /></header>
 
-      <form onSubmit={handleSubmit}>
-        {isRegister && (
-          <>
-            <label>Username:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <br /><br />
+      <div className="login-container">
+        <h2>{isRegister ? 'Register' : 'Login'}</h2>
 
-            <label>Role:</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)} required>
-              <option value="user">User</option>
-              <option value="wardAdmin">Ward Admin</option>
-              <option value="superAdmin">Super Admin</option>
-            </select>
-            <br /><br />
+        <form onSubmit={handleSubmit}>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-            {role === 'wardAdmin' && (
-              <>
-                <label>Ward No:</label>
-                <input
-                  type="text"
-                  value={wardNo}
-                  onChange={(e) => setWardNo(e.target.value)}
-                  required
-                />
-                <br /><br />
-              </>
-            )}
-          </>
-        )}
+          {isRegister && (
+            <>
+              <label>Email:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
 
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br /><br />
+              <label>Role:</label>
+              <select value={role} onChange={(e) => setRole(e.target.value)} required>
+                <option value="user">User</option>
+                <option value="wardAdmin">Ward Admin</option>
+              </select>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br /><br />
+              {role === 'wardAdmin' && (
+                <>
+                  <label>Ward Number:</label>
+                  <input
+                    type="text"
+                    value={wardNo}
+                    onChange={(e) => setWardNo(e.target.value)}
+                    required
+                  />
+                </>
+              )}
+            </>
+          )}
 
-        <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
-      </form>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-      <br />
-      <button onClick={() => setIsRegister(!isRegister)}>
-        {isRegister ? 'Already have an account? Login' : 'New user? Register'}
-      </button>
-    </div>
+          <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
+        </form>
+
+        <br />
+        <button onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? 'Already have an account? Login' : 'New user? Register'}
+        </button>
+      </div>
+    </>
   );
-};
-
-export default Login;
+}

@@ -1,0 +1,61 @@
+/* ViewComplaints.css */
+
+.complaints-container {
+  padding: 40px;
+  background: linear-gradient(135deg, #f8f9ff, #e7f6f2, #fff0f0);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.complaints-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.complaints-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.complaint-card {
+  background-color: #ffffff;
+  border: 2px solid #e0eafc;
+  border-radius: 12px;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.complaint-card:hover {
+  transform: scale(1.01);
+}
+
+.complaint-info {
+  max-width: 70%;
+}
+
+.complaint-info p {
+  margin: 8px 0;
+  color: #2d3436;
+}
+
+.progress-bar-container {
+  width: 120px;
+  height: 12px;
+  background-color: #ecf0f1;
+  border-radius: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #5dade2, #48c9b0);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}

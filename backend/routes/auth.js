@@ -1,22 +1,30 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const User = require('../models/User');
 
-// Register Route
+// ✅ REGISTER ROUTE (with password hashing)
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password, role, wardNo } = req.body;
 
-    if (!username || !email || !password || !role) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    const existingUser = await User.findOne({ email });
+    // Check for existing user
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ error: 'Email already registered' });
+      return res.status(400).json({ error: 'Username or Email already exists' });
     }
 
-    const newUser = new User({ username, email, password, role, wardNo });
+    // ✅ Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+      wardNo: role === 'wardAdmin' ? wardNo : ''
+    });
+
     await newUser.save();
 
     res.status(201).json({
@@ -24,42 +32,39 @@ router.post('/register', async (req, res) => {
       user: {
         username: newUser.username,
         role: newUser.role,
-        wardNo: newUser.wardNo || null,
-      },
+        wardNo: newUser.wardNo || ''
+      }
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Registration failed' });
   }
 });
 
-// Login Route
+// ✅ LOGIN ROUTE (with password comparison)
 router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
   try {
-    const { email, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) return res.status(401).json({ error: 'Invalid username or password' });
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Both fields required' });
-    }
-
-    const user = await User.findOne({ email });
-
-    if (!user || user.password !== password) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
+    // ✅ Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ error: 'Invalid username or password' });
 
     res.json({
       message: 'Login successful',
       user: {
         username: user.username,
         role: user.role,
-        wardNo: user.wardNo || null,
-      },
+        wardNo: user.wardNo || ''
+      }
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
-module.exports = router; // ✅ DON'T FORGET THIS
+module.exports = router;

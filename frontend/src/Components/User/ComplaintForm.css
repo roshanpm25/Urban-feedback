@@ -1,0 +1,77 @@
+/* ComplaintForm.css */
+
+.complaint-form-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fdf0f0, #f0f9ff, #f3fff3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.complaint-form-box {
+  background-color: #ffffff;
+  border: 2px solid #e3f2fd;
+  border-radius: 12px;
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.complaint-form-box h2 {
+  font-size: 26px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.complaint-form-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #34495e;
+}
+
+.complaint-form-box input,
+.complaint-form-box select,
+.complaint-form-box textarea {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #cfd9df;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.complaint-form-box input:focus,
+.complaint-form-box select:focus,
+.complaint-form-box textarea:focus {
+  border-color: #5dade2;
+  outline: none;
+}
+
+.complaint-form-box button {
+  background-color: #5dade2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.complaint-form-box button:hover {
+  background-color: #2e86de;
+  transform: scale(1.03);
+}
+
+.complaint-form-box p {
+  text-align: center;
+  color: #7f8c8d;
+  margin-top: 10px;
+  font-style: italic;
+}

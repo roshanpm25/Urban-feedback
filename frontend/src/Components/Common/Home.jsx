@@ -1,24 +1,27 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
-import logo from '../../assets/logo.png';        // Adjust path to your image
-import monitor from '../../assets/monitor.png';  // Adjust path to your image
+import logo from '../../assets/logo.png';
+import monitor from '../../assets/monitor.png';
+import Navbar from '../Common/Navbar';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const username = localStorage.getItem('username');
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login');
+  };
+
   return (
+    <>
     <div className="home-page">
-      {/* Navbar */}
-      <header className="navbar">
-        <div className="logo">
-          <img src={logo} alt="Logo" />
-          <span>Fix My City</span>
-        </div>
-        <nav className="nav-links">
-          <a href="Home.jsx">Home</a>
-          <a href="About.jsx">About Us</a>
-          <a href="#">Help</a>
-        </nav>
-        <a href="#" className="login-btn">Login</a>
-      </header>
+    
+    {/* navbar section */}
+      <header><Navbar /></header>
 
       {/* Hero Section */}
       <section className="hero">
@@ -54,6 +57,7 @@ const Home = () => {
         &copy; 2025 Fix My City | All rights reserved
       </footer>
     </div>
+    </>
   );
 };
 

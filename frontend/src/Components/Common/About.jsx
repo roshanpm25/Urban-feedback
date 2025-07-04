@@ -1,10 +1,16 @@
 import React from 'react';
 import './About.css';
+import Navbar from './Navbar';
 
 const About = () => {
   return (
-    <div className="about-page">
+<>
+<div className="about">
+    {/* navbar section */}
+      <header><Navbar /></header>
+
       {/* Hero / Introduction */}
+
       <section className="about-hero">
         <h1>About Fix My City</h1>
         <p>
@@ -98,6 +104,8 @@ const About = () => {
         &copy; 2025 Fix My City | Built with ❤️ by civic-minded developers.
       </footer>
     </div>
+
+    </>
   );
 };
 

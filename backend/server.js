@@ -1,26 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const app = express();
+require('dotenv').config();
 
-// Middleware
+// ✅ Import your routes
+const complaintRoutes = require('./routes/complaints'); 
+
+const app = express();
 app.use(cors());
 app.use(express.json());
-
-// Routes
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes); // This works only if router is properly exported
-const complaintRoutes = require('./routes/complaints');
+const complaintsRoute = require('./routes/complaints');
+app.use(express.json()); // ✅ Needed to parse JSON bodies
 app.use('/api/complaints', complaintRoutes);
 
 
-// DB connection and server
-mongoose.connect('mongodb://localhost:27017/urban-feedback', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('✅ Connected to MongoDB');
-  app.listen(5000, () => console.log('🚀 Server running on port 5000'));
-}).catch((err) => {
-  console.error('MongoDB connection failed:', err);
-});
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/complaints', require('./routes/complaints'));
+app.use('/api/assignments', require('./routes/assignments'));
+
+
+
+// Connect to MongoDB and start server
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => app.listen(5000, () => console.log('Server running on port 5000')))
+  .catch(err => console.log(err));
