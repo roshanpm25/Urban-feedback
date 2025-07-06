@@ -1,5 +1,3 @@
-/* ViewComplaints.css */
-
 .complaints-container {
   padding: 40px;
   background: linear-gradient(135deg, #f8f9ff, #e7f6f2, #fff0f0);
@@ -27,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease;
 }
@@ -36,21 +35,26 @@
 }
 
 .complaint-info {
-  max-width: 70%;
+  flex: 1;
+}
+
+.complaint-info h3 {
+  color: #2980b9;
+  margin-bottom: 10px;
 }
 
 .complaint-info p {
-  margin: 8px 0;
+  margin: 6px 0;
   color: #2d3436;
 }
 
 .progress-bar-container {
-  width: 120px;
+  width: 100%;
   height: 12px;
   background-color: #ecf0f1;
   border-radius: 20px;
-  margin-top: 20px;
-  position: relative;
+  margin-top: 15px;
+  overflow: hidden;
 }
 
 .progress-bar {

@@ -1,0 +1,66 @@
+.update-status-container {
+  min-height: 100vh;
+  background: #f5f9ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.update-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e3e3e3;
+}
+
+.update-box h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+.update-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.update-box input,
+.update-box textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #cfd9df;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.update-box button {
+  width: 100%;
+  background-color: #3498db;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.update-box button:hover {
+  background-color: #2c80b4;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}

@@ -1,79 +1,71 @@
-// src/Components/WardAdmin/ViewComplaints.jsx
+// src/Components/WardAdmin/WardComplaintList.jsx
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import WardNavbar from './WardNavbar';
 
-export default function ViewComplaints() {
+export default function WardViewComplaints() {
+  const wardNo = localStorage.getItem('wardNo');
   const [complaints, setComplaints] = useState([]);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const wardNo = localStorage.getItem('wardNo');
     if (!wardNo) {
-      setError('⚠️ Ward number not found in localStorage.');
-      setLoading(false);
+      alert('❌ Ward number not found in localStorage');
       return;
     }
 
     fetch(`http://localhost:5000/api/complaints/ward/${wardNo}`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Server returned an error');
-        }
-        return res.json();
+      .then((res) => res.json())
+      .then((data) => {
+        const sorted = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setComplaints(sorted);
+        setLoading(false);
       })
-      .then(data => {
-        if (!Array.isArray(data)) {
-          setError('⚠️ Invalid data format received from server.');
-        } else {
-          setComplaints(data);
-        }
-      })
-      .catch(err => {
-        console.error("❌ Error fetching complaints:", err);
-        setError('❌ Failed to fetch complaints. Please try again.');
-      })
-      .finally(() => setLoading(false));
-  }, []);
+      .catch((err) => {
+        console.error('Error fetching ward complaints:', err);
+        setLoading(false);
+      });
+  }, [wardNo]);
 
-  if (loading) return <p>🔄 Loading complaints...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (loading) return <p>Loading complaints...</p>;
 
   return (
-    <div>
-      <WardNavbar />
-      <h2>📋 Ward Complaints</h2>
+    <>
+   
+      <div className="ward-complaints-container">
+        <h2>📋 Complaints in Ward {wardNo}</h2>
 
-      {complaints.length === 0 ? (
-        <p>No complaints found for this ward.</p>
-      ) : (
-        <table border="1" cellPadding="10">
-          <thead>
-            <tr>
-              <th>Service</th>
-              <th>User</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {complaints.map((complaint) => (
-              <tr key={complaint._id}>
-                <td>{complaint.service}</td>
-                <td>{complaint.username}</td>
-                <td>{complaint.status}</td>
-                <td>
-                  <Link to={`/ward/view/${complaint._id}`}>View Details</Link>
-                  {" | "}
-                  <Link to={`/wardAdmin/complaints/${complaint._id}/status`}>Update Status</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+        {complaints.length === 0 ? (
+          <p>No complaints found in this ward.</p>
+        ) : (
+          complaints.map((comp) => (
+            <div key={comp._id} className="complaint-card">
+              <p><strong>User:</strong> {comp.username}</p>
+              <p><strong>Service:</strong> {comp.service}</p>
+              <p><strong>Address:</strong> {comp.address}</p>
+              <p><strong>Description:</strong> {comp.description}</p>
+
+              {comp.imagePath && (
+                <img
+                  src={`http://localhost:5000/${comp.imagePath}`}
+                  alt="Complaint"
+                  style={{ maxWidth: '200px', marginTop: '10px', borderRadius: '8px' }}
+                />
+              )}
+
+              <p><strong>Status:</strong> {comp.status}</p>
+              <p><strong>Progress:</strong> {comp.statusProgress}%</p>
+              <p><strong>Assigned Team:</strong> {comp.assignment?.team || 'Not assigned'}</p>
+              <p><strong>Complaint Date:</strong> {new Date(comp.createdAt).toLocaleString()}</p>
+
+              <Link to={`/wardAdmin/view/${comp._id}`}>
+                <button>View / Update</button>
+              </Link>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }

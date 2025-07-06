@@ -21,7 +21,7 @@ router.post('/:complaintId', async (req, res) => {
           team,
           notes
         },
-        status: 'Assigned' // Optional: auto-update status
+        status: 'Assigned' 
       },
       { new: true }
     );

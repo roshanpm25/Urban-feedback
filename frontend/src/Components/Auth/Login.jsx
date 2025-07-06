@@ -46,16 +46,22 @@ export default function Login() {
         return;
       }
 
-      const user = data.user || data;
-      const { username, role, wardNo } = user;
+      const user = data.user;
+      if (!user) {
+        alert("Invalid response from server");
+        return;
+      }
 
-      // ✅ Save to localStorage
+      const { username, role, wardNo, email } = user;
+
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('username', username);
+      localStorage.setItem('email', email || '');
       localStorage.setItem('role', role);
       localStorage.setItem('wardNo', wardNo || '');
 
-      // ✅ Navigate based on role
+      console.log("✅ Logged in & Saved in localStorage");
+
       if (role === 'wardAdmin') {
         navigate(`/wardAdmin/${username}/home`);
       } else if (role === 'user') {
@@ -78,22 +84,12 @@ export default function Login() {
 
         <form onSubmit={handleSubmit}>
           <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
 
           {isRegister && (
             <>
               <label>Email:</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
               <label>Role:</label>
               <select value={role} onChange={(e) => setRole(e.target.value)} required>
@@ -104,24 +100,14 @@ export default function Login() {
               {role === 'wardAdmin' && (
                 <>
                   <label>Ward Number:</label>
-                  <input
-                    type="text"
-                    value={wardNo}
-                    onChange={(e) => setWardNo(e.target.value)}
-                    required
-                  />
+                  <input type="text" value={wardNo} onChange={(e) => setWardNo(e.target.value)} required />
                 </>
               )}
             </>
           )}
 
           <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 
           <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
         </form>

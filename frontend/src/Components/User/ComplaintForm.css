@@ -1,15 +1,16 @@
-/* ComplaintForm.css */
 
 .complaint-form-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #fdf0f0, #f0f9ff, #f3fff3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding-top: 100px; 
+  padding-bottom: 40px;
+  background: linear-gradient(135deg, #fdf0f0, #f0f9ff, #f3fff3);
+  min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
 }
 
+/* The form box */
 .complaint-form-box {
   background-color: #ffffff;
   border: 2px solid #e3f2fd;
@@ -20,58 +21,60 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Heading */
 .complaint-form-box h2 {
-  font-size: 26px;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  font-size: 24px;
   text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
 }
 
+/* Form labels and inputs */
 .complaint-form-box label {
-  display: block;
-  margin-bottom: 6px;
   font-weight: 500;
   color: #34495e;
+  margin-top: 12px;
+  display: block;
 }
 
 .complaint-form-box input,
-.complaint-form-box select,
 .complaint-form-box textarea {
   width: 100%;
-  padding: 10px 14px;
-  margin-bottom: 20px;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 16px;
   border: 1px solid #cfd9df;
   border-radius: 8px;
   font-size: 15px;
-  transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .complaint-form-box input:focus,
-.complaint-form-box select:focus,
 .complaint-form-box textarea:focus {
   border-color: #5dade2;
   outline: none;
 }
 
+/* File input should not be full width */
+.complaint-form-box input[type="file"] {
+  padding: 0;
+  margin-top: 8px;
+}
+
+/* Submit Button */
 .complaint-form-box button {
+  width: 100%;
   background-color: #5dade2;
   color: white;
-  padding: 10px 20px;
+  padding: 12px;
+  font-size: 16px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .complaint-form-box button:hover {
   background-color: #2e86de;
-  transform: scale(1.03);
-}
-
-.complaint-form-box p {
-  text-align: center;
-  color: #7f8c8d;
-  margin-top: 10px;
-  font-style: italic;
+  transform: scale(1.02);
 }

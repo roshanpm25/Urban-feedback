@@ -1,20 +1,19 @@
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const User = require('../models/User');
 
-// ✅ REGISTER ROUTE (with password hashing)
+// Register
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password, role, wardNo } = req.body;
 
-    // Check for existing user
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res.status(400).json({ error: 'Username or Email already exists' });
     }
 
-    // ✅ Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -31,6 +30,7 @@ router.post('/register', async (req, res) => {
       message: 'User registered successfully',
       user: {
         username: newUser.username,
+        email: newUser.email,
         role: newUser.role,
         wardNo: newUser.wardNo || ''
       }
@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ✅ LOGIN ROUTE (with password comparison)
+// Login
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -49,7 +49,6 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(401).json({ error: 'Invalid username or password' });
 
-    // ✅ Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: 'Invalid username or password' });
 
@@ -57,6 +56,7 @@ router.post('/login', async (req, res) => {
       message: 'Login successful',
       user: {
         username: user.username,
+        email: user.email,
         role: user.role,
         wardNo: user.wardNo || ''
       }

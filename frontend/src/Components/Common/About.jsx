@@ -1,6 +1,8 @@
 import React from 'react';
 import './About.css';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
+ 
 
 const About = () => {
   return (
@@ -90,13 +92,10 @@ const About = () => {
       {/* Help & Feedback */}
       <section className="about-links">
         <h3>Need Assistance?</h3>
-        <p>
-          Visit our <a href="Help.jsx">Help Center</a> for guides and FAQs.
-        </p>
-        <h3>Want to Share Your Thoughts?</h3>
-        <p>
-          Give us your suggestions via the <a href="Home.jsx">Feedback Portal</a>.
-        </p>
+<p>
+  Visit our <Link to="/help">Help Center</Link> for guides and FAQs.
+</p>
+
       </section>
 
       {/* Footer */}

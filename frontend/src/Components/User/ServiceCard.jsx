@@ -1,5 +1,3 @@
-// src/Components/User/ServiceCard.jsx
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ServiceCard.module.css';

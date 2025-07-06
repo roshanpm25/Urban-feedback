@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ViewComplaints from './WardViewComplaints';
-import WardNavbar from './WardNavbar'; // ✅ Optional: Include navigation
+import WardNavbar from './WardNavbar'; 
 
 export default function ComplaintManager() {
   return (

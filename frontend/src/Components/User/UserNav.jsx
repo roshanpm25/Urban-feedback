@@ -1,20 +1,13 @@
 // src/Components/User/UserNav.jsx
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import './UserNav.css';
 
 export default function UserNav() {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  const username = localStorage.getItem('username');
-
-  useEffect(() => {
-    if (!isLoggedIn || !username) {
-      navigate('/login');
-    }
-  }, [isLoggedIn, username, navigate]);
+  const username = localStorage.getItem('username') || 'user';
 
   const handleLogout = () => {
     localStorage.clear();
@@ -31,7 +24,6 @@ export default function UserNav() {
       <nav className="nav-links">
         <Link to={`/user/${username}/home`}>Home</Link>
         <Link to="/user/complaints">My Complaints</Link>
-
         <div className="dropdown">
           <span className="dropbtn">Lodge Complaint ▾</span>
           <div className="dropdown-content">

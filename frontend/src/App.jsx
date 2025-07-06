@@ -1,4 +1,3 @@
-// src/App.jsx
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -11,9 +10,11 @@ import Help from './Components/Common/Help';
 
 // User Components
 import UserHome from './Components/User/UserHome';
-import ComplaintForm from './Components/User/UpdateStatus';
+import UpdateStatus from './Components/User/UpdateStatus';
 import ViewComplaints from './Components/User/ViewComplaintsDetails';
-import ViewComplaintsDetails from './Components/User/ViewComplaintsDetails'; // ✅ for user
+import ViewComplaintsDetails from './Components/User/ViewComplaintsDetails'; 
+import ComplaintForm from './Components/User/ComplaintForm';
+
 
 // Ward Admin Components
 import WardAdminHome from './Components/WardAdmin/WardAdminHome';
@@ -21,7 +22,7 @@ import ComplaintManager from './Components/WardAdmin/ComplaintManager';
 import AssignMembers from './Components/WardAdmin/AssignMembers';
 import WardViewComplaintDetails from './Components/WardAdmin/WardViewComplaintDetails';
 import WardViewComplaints from './Components/WardAdmin/WardViewComplaints';
-import UpdateStatus from './Components/WardAdmin/UpdateStatus';
+import WardUpdateStatus from './Components/WardAdmin/WardUpdateStatus';
 
 
 
@@ -40,7 +41,7 @@ function App() {
         <Route path="/user/:username/home" element={<UserHome />} />
         <Route path="/user/complaints" element={<ViewComplaints />} />
         <Route path="/user/complaint/:serviceType" element={<ComplaintForm />} />
-        <Route path="/user/complaints/:complaintId" element={<ViewComplaintsDetails />} /> {/* 🛠 Fixed extra slash */}
+        <Route path="/user/complaints/:complaintId" element={<ViewComplaintsDetails />} /> 
 
         {/* ✅ Ward Admin Pages */}
         <Route path="/wardAdmin/:username/home" element={<WardAdminHome />} />
@@ -49,7 +50,7 @@ function App() {
         <Route path="/wardAdmin/view/:complaintId" element={<WardViewComplaintDetails />} />
         <Route path="/ward/view/:complaintId" element={<WardViewComplaintDetails />} />
         <Route path="/ward/complaints" element={<WardViewComplaints />} />
-        <Route path="/wardAdmin/complaints/:complaintId/status" element={<UpdateStatus />} />
+        <Route path="/wardAdmin/complaints/:complaintId/status" element={<WardUpdateStatus />} />
 
       </Routes>
     </Router>

@@ -57,27 +57,24 @@
 
 /* Hero Section */
 .hero {
-  background-color: #d7dbc0; /* light tone */
-  min-height: 100vh;
+  background-color: #d7dbc0;
   padding: 60px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   text-align: center;
 }
 
 .hero h1 {
-  font-size: 40px;
-  margin-bottom: 15px;
+  font-size: 32px;
   color: #17413f;
+  margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 18px;
   color: #2f3d35;
-  max-width: 700px;
+  max-width: 600px;
   margin: 0 auto;
 }
+
 
 /* Stats Section */
 .stats {
@@ -146,4 +143,30 @@
   .hero p {
     font-size: 16px;
   }
+}
+
+/* Steps to Use */
+.steps {
+  background-color: #f0f4e3;
+  padding: 60px 30px;
+  color: #2f3d35;
+  text-align: center;
+}
+
+.steps h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.steps ol {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+.steps li {
+  margin-bottom: 12px;
+  font-size: 18px;
 }

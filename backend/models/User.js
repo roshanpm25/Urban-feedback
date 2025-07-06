@@ -1,4 +1,3 @@
-// models/User.js
 
 const mongoose = require('mongoose');
 
@@ -21,7 +20,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 6, // You can increase this
+    minlength: 6, 
   },
   role: {
     type: String,
@@ -30,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   wardNo: {
     type: String,
-    default: '', // Ward not needed for superAdmin
+    default: '', 
   }
 }, { timestamps: true });
 

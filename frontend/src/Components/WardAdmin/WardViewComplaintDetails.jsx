@@ -1,4 +1,3 @@
-// src/Components/WardAdmin/ViewComplaintDetails.jsx
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,6 +9,9 @@ export default function ViewComplaintDetails() {
   const [progress, setProgress] = useState('');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [team, setTeam] = useState('');
+  const [teamNotes, setTeamNotes] = useState('');
 
   useEffect(() => {
     if (!complaintId) {
@@ -18,14 +20,13 @@ export default function ViewComplaintDetails() {
     }
 
     fetch(`http://localhost:5000/api/complaints/${complaintId}`)
-      .then(res => {
-        if (!res.ok) throw new Error('Complaint not found');
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
         setDetails(data);
         setProgress(data.statusProgress || '');
         setNote(data.statusNote || '');
+        setTeam(data.assignment?.team || '');
+        setTeamNotes(data.assignment?.notes || '');
       })
       .catch(err => {
         console.error('Error fetching complaint:', err);
@@ -62,6 +63,35 @@ export default function ViewComplaintDetails() {
     }
   };
 
+  const handleTeamUpdate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/complaints/assignments/${complaintId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team, notes: teamNotes }),
+      });
+
+      const result = await res.json();
+      if (!res.ok) {
+        alert(result.error || 'Failed to assign team');
+        return;
+      }
+
+      alert('✅ Team assignment updated!');
+      setEditMode(false);
+
+      // Fetch latest complaint details
+      const updated = await fetch(`http://localhost:5000/api/complaints/${complaintId}`);
+      const data = await updated.json();
+      setDetails(data);
+    } catch (err) {
+      console.error('Team update error:', err);
+      alert('Error updating team assignment');
+    }
+  };
+
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
   if (!details) return <p>Loading complaint details...</p>;
 
@@ -71,19 +101,46 @@ export default function ViewComplaintDetails() {
       <h2>Complaint Details</h2>
 
       <p><strong>Service:</strong> {details.service}</p>
-      <p><strong>Status:</strong> {details.status}</p>
+      <p><strong>Status Progress:</strong> {details.statusProgress}%</p>
+      <p><strong>Status Note:</strong> {details.statusNote}</p>
       <p><strong>Description:</strong> {details.description}</p>
       <p><strong>Phone:</strong> {details.phone}</p>
       <p><strong>Date:</strong> {new Date(details.createdAt).toLocaleString()}</p>
 
+      <hr />
+      <h3>Team Assignment</h3>
       {details.assignment ? (
         <>
-          <h3>Assigned Team</h3>
           <p><strong>Team:</strong> {details.assignment.team}</p>
           <p><strong>Notes:</strong> {details.assignment.notes}</p>
         </>
       ) : (
         <p><i>No team assigned yet.</i></p>
+      )}
+      <button onClick={() => setEditMode(!editMode)}>
+        {editMode ? 'Cancel Edit' : '✏️ Edit Team Assignment'}
+      </button>
+
+      {editMode && (
+        <form onSubmit={handleTeamUpdate}>
+          <label>Team Name:</label><br />
+          <input
+            type="text"
+            value={team}
+            onChange={(e) => setTeam(e.target.value)}
+            required
+          /><br /><br />
+
+          <label>Team Notes:</label><br />
+          <textarea
+            rows={3}
+            value={teamNotes}
+            onChange={(e) => setTeamNotes(e.target.value)}
+            required
+          /><br /><br />
+
+          <button type="submit">Update Assignment</button>
+        </form>
       )}
 
       <hr />

@@ -44,22 +44,21 @@ const Help = () => {
           <p>No, only city officials and agents can see detailed info. Public view shows only the issue type and status.</p>
         </div>
 
-        <div className="faq-item">
-          <h4>Can I edit or delete a complaint?</h4>
-          <p>You can edit or delete a complaint only before it’s assigned to an agent.</p>
-        </div>
+<div className="faq-item">
+  <h4>Is there a way to attach a photo or image?</h4>
+  <p>Yes, while submitting a complaint, you can optionally upload an image to help authorities understand the issue better.</p>
+</div>
 
-        <div className="faq-item">
-          <h4>How do I reset my password?</h4>
-          <p>Click on “Forgot Password” on the login page. An email will be sent with reset instructions.</p>
-        </div>
+<div className="faq-item">
+  <h4>Who will handle my complaint?</h4>
+  <p>Complaints are assigned to ward-level officers or their teams based on the ward number you belong to.</p>
+</div>
       </section>
 
       {/* Contact Support */}
       <section className="help-contact">
         <h3>Still need help?</h3>
-        <p>Email us at <a href="mailto:support@fixmycity.com">support@fixmycity.com</a></p>
-        <p>Or call our helpline: <strong>1800-123-456</strong></p>
+      <p>Call our helpline: <strong>1800-123-456</strong></p>
       </section>
 
       {/* Footer */}
